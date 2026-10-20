@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+build/
+dist/
+*.egg-info/
+.venv/
+venv/
+# the environment of scripts/alhena_atlas_embed.py
+alhena_atlas/
+.ipynb_checkpoints/
+.DS_Store
+
+# documentation build
+site/
+.cache/

@@ -1,0 +1,11 @@
+# The environment of scripts/alhena_atlas_embed.py, apart from the package's, under Python 3.12:
+#     python3.12 -m venv alhena_atlas
+#     source alhena_atlas/bin/activate
+#     pip install -r scripts/requirements-atlas.txt
+# sc-concept brings what the script imports beside it, and pins torch 2.9.0. On a GPU, install the
+# CUDA build of torch 2.9.0 from the PyTorch index first.
+# flash-attn is left out: it builds against the local CUDA toolchain. The model runs without it, but
+# the released references were embedded with it, so an atlas embedded without it may differ
+# slightly from them; install it first where that matters.
+sc-concept==0.2.4
+torch==2.9.0

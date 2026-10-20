@@ -1,0 +1,95 @@
+name: release
+
+# A push to main builds the package; Run workflow also uploads it to TestPyPI, a release to PyPI.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  release:
+    types: [published]
+
+# Read only; the two upload jobs alone get id-token: write, for Trusted Publishing.
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # The build needs no git access after the checkout, so the token is not kept.
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: python -m pip install build twine
+
+      # The source archive and the wheel, in dist/.
+      - name: Build
+        run: python -m build
+
+      # Checks that the README renders on PyPI; --strict fails on warnings too.
+      - name: Check the package
+        run: twine check --strict dist/*
+
+      # A release uploads only the version its tag names: v plus __version__.
+      - name: Check the tag
+        if: github.event_name == 'release'
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          version=$(python -c "import runpy; print(runpy.run_path('src/alhena/_version.py')['__version__'])")
+          if [ "$TAG" != "v$version" ]; then
+            echo "::error::Tag $TAG does not match version $version in src/alhena/_version.py: tag the release v$version, or change the version first."
+            exit 1
+          fi
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: python-package-distributions
+          path: dist/
+
+  # Run workflow, by hand: a trial upload to TestPyPI.
+  testpypi:
+    if: github.event_name == 'workflow_dispatch'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/p/alhena
+
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: python-package-distributions
+          path: dist/
+
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+
+  # A published release; waits for approval where the `pypi` environment requires a reviewer.
+  pypi:
+    if: github.event_name == 'release'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    environment:
+      name: pypi
+      url: https://pypi.org/p/alhena
+
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: python-package-distributions
+          path: dist/
+
+      - uses: pypa/gh-action-pypi-publish@release/v1

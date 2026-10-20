@@ -1,0 +1,6 @@
+# The lowest release of each spatial and wsi dependency, for the floors-spatial and floors-wsi jobs.
+# Apart from constraints-min.txt: the spatial stack does not install with the core floors.
+spatialdata==0.8.0
+sopa==2.2.0
+anndata==0.12.7
+tiffslide==2.5.1

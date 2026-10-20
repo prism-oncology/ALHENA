@@ -1,0 +1,61 @@
+:root {
+  --md-primary-fg-color:        #171C2B;
+  --md-primary-fg-color--light: #2B3348;
+  --md-primary-fg-color--dark:  #0E1220;
+  --md-accent-fg-color:         #D2456F;
+  --md-accent-fg-color--transparent: #D2456F1a;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color:        #171C2B;
+  --md-accent-fg-color:         #D2456F;
+  --md-typeset-a-color:         #E86A8E;
+}
+
+.md-typeset table:not([class]) th { background: var(--md-primary-fg-color); color: #fff; }
+.md-typeset .admonition, .md-typeset details { font-size: .72rem; }
+
+/* The header logo is the full lockup, so the site name beside it would be a duplicate.
+   Only the first topic is hidden; the second carries the page title on scroll. */
+.md-header__button.md-logo { padding-right: 0; }
+.md-header__button.md-logo img {
+  height: 1.5rem;
+  width: auto;
+  max-width: 9rem;
+  object-fit: contain;
+}
+.md-header__title .md-header__topic:first-child { display: none; }
+
+@media screen and (max-width: 44.984375em) {
+  .md-header__button.md-logo img { height: 1.2rem; max-width: 6.5rem; }
+}
+
+/* A page that sits between two sections of the navigation, the use case example, is set in bold
+   like the section titles beside it, at the widths where the theme sets those titles in bold. */
+@media screen and (min-width: 76.25em) {
+  .md-nav--primary > .md-nav__list > .md-nav__item--section
+    + .md-nav__item:not(.md-nav__item--section):has(+ .md-nav__item--section) > .md-nav__link {
+    font-weight: 700;
+  }
+}
+
+/* A code block in a notebook's Markdown cell has no code element inside its pre, so the theme's
+   code size misses it and it takes the size of the text. It takes the size of the code cells. */
+.jupyter-wrapper .jp-RenderedMarkdown .highlight pre { font-size: var(--jp-code-font-size); }
+
+/* A notebook cell tagged hide-input shows its output without its code, as the use case example
+   shows each frozen output after the code block that produces it. The output sits close under
+   that block, as an output sits under its own code. */
+.jupyter-wrapper .jp-MarkdownCell:has(+ .celltag_hide-input) .highlight:last-child pre {
+  margin-bottom: 0;
+}
+.jupyter-wrapper .jp-Cell.celltag_hide-input { padding-top: 0; }
+.jupyter-wrapper .celltag_hide-input .jp-RenderedHTMLCommon table { margin-top: 0; }
+
+/* Figure captions on notebook pages are slightly smaller than the main text. */
+.jupyter-wrapper .figure-caption {
+  font-size: .72rem;
+  line-height: 1.45;
+  font-style: italic;
+  color: var(--md-default-fg-color--light);
+}

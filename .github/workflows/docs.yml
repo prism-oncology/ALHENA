@@ -1,0 +1,63 @@
+name: docs
+
+# A push to main builds and deploys the site; a pull request only builds it.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Read only; the deploy job alone gets the two Pages permissions.
+permissions:
+  contents: read
+
+# A running deployment in `pages` is never canceled; a pull request builds in a group of its own.
+concurrency:
+  group: ${{ github.event_name == 'push' && 'pages' || format('docs-{0}', github.ref) }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      # CPU builds of torch and torchvision: the build never uses CUDA.
+      # mkdocstrings parses `src` and the notebooks are not executed: nothing here runs alhena.
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -e ".[docs]"
+
+      # --strict fails on any warning: a moved page, a nav entry with no file, an unresolved path.
+      - name: Build
+        run: mkdocs build --strict
+
+      - if: github.event_name == 'push'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: site
+
+  # A job of its own, so a failed build never enters the `github-pages` environment.
+  deploy:
+    if: github.event_name == 'push'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      # Fails here, naming the cause, where the Pages source is not set to GitHub Actions.
+      - uses: actions/configure-pages@v6
+
+      - id: deployment
+        uses: actions/deploy-pages@v5

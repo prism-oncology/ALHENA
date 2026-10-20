@@ -1,0 +1,95 @@
+[build-system]
+requires = ["hatchling", "hatch-fancy-pypi-readme"]
+build-backend = "hatchling.build"
+
+[project]
+name = "alhena"
+description = "ALHENA, an H&E encoder distilled from transcriptomic foundation models for multi-scale slide analysis."
+dynamic = ["version", "readme"]
+license = "BSD-3-Clause"
+license-files = ["LICENSE"]
+requires-python = ">=3.12"
+authors = [{ name = "Félicie Giraud-Sauveur", email = "felicie.giraudsauveur@gmail.com" }]
+keywords = ["histopathology", "spatial-transcriptomics", "cell-typing", "foundation-model"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Topic :: Scientific/Engineering :: Image Processing",
+]
+dependencies = [
+    "torch>=2.2",
+    "timm>=1.0,<2",
+    "numpy>=1.26",
+    "pandas>=2.1.1",
+    "pyarrow>=14",
+    "opencv-python-headless>=4.8",
+    "huggingface-hub>=0.34",
+    "safetensors>=0.4",
+    "h5py>=3.10",
+    "tqdm>=4.65",
+    # 0.12.7 is the first anndata to bound pandas below 3, under which older ones cannot write h5ad.
+    "anndata>=0.12.7",
+]
+
+[project.optional-dependencies]
+viz = ["matplotlib>=3.8"]
+# spatialdata below 0.8 rejects .X layers keyed None.
+spatial = ["spatialdata>=0.8", "sopa>=2.2"]
+# tiffslide below 2.5.1 installs beside a tifffile it then fails to import from.
+wsi = ["tiffslide>=2.5.1"]
+dev = ["pytest>=8.0", "ruff>=0.16,<0.17"]
+# Documentation tooling, for .github/workflows/docs.yml only; no floors job installs it.
+docs =["mkdocs-material>=9.5", "mkdocstrings[python]>=0.26", "mkdocs-jupyter>=0.25"]
+
+[project.scripts]
+alhena = "alhena.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/prism-oncology/ALHENA"
+Documentation = "https://prism-oncology.github.io/ALHENA/"
+Source = "https://github.com/prism-oncology/ALHENA"
+Issues = "https://github.com/prism-oncology/ALHENA/issues"
+Weights = "https://huggingface.co/prism-oncology/ALHENA"
+References = "https://huggingface.co/prism-oncology/ALHENA-references"
+
+# The version is read from `__version__` in the package, so the two cannot disagree.
+[tool.hatch.version]
+path = "src/alhena/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/alhena"]
+
+# The README is the PyPI page, so its relative image paths become GitHub URLs.
+[tool.hatch.metadata.hooks.fancy-pypi-readme]
+content-type = "text/markdown"
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+path = "README.md"
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
+pattern = 'src="(?!https?://)([^"]+)"'
+replacement = 'src="https://raw.githubusercontent.com/prism-oncology/ALHENA/main/\1"'
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF"]
+# UP040 and UP047 would turn TypeAlias and TypeVar into PEP 695 objects, which behave differently.
+ignore = ["B008", "UP040", "UP047"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["alhena"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+filterwarnings = ["error::alhena._errors.AlhenaWarning"]

@@ -1,0 +1,16 @@
+# The lowest release of each core, dev and viz dependency, for the floors job of tests.yml.
+# Raise a pin with its floor in pyproject.toml. timm and opencv have no release on their floor.
+torch==2.2.0
+timm==1.0.3
+numpy==1.26.0
+pandas==2.1.1
+pyarrow==14.0.0
+opencv-python-headless==4.8.0.76
+huggingface-hub==0.34.0
+safetensors==0.4.0
+h5py==3.10.0
+tqdm==4.65.0
+anndata==0.12.7
+matplotlib==3.8.0
+pytest==8.0.0
+ruff==0.16.0
