@@ -15,6 +15,7 @@
 
 <p align="center">
   <a href="https://pypi.org/project/alhena/"><img alt="PyPI" src="https://img.shields.io/pypi/v/alhena.svg"></a>
+  <a href="https://doi.org/10.5281/zenodo.23619657"><img alt="DOI" src="https://zenodo.org/badge/DOI/10.5281/zenodo.23619657.svg"></a>
   <a href="https://github.com/prism-oncology/ALHENA/actions/workflows/tests.yml"><img alt="Tests" src="https://github.com/prism-oncology/ALHENA/actions/workflows/tests.yml/badge.svg"></a>
   <a href="https://github.com/prism-oncology/ALHENA/actions/workflows/docs.yml"><img alt="Docs" src="https://github.com/prism-oncology/ALHENA/actions/workflows/docs.yml/badge.svg"></a>
   <img alt="License: BSD-3-Clause" src="https://img.shields.io/badge/license-BSD--3--Clause-blue.svg">

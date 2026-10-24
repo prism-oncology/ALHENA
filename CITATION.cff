@@ -4,6 +4,7 @@ type: software
 title: ALHENA
 abstract: "ALHENA, an H&E encoder distilled from transcriptomic foundation models for multi-scale slide analysis."
 version: 0.1.0
+doi: 10.5281/zenodo.23619657
 license: BSD-3-Clause
 repository-code: https://github.com/prism-oncology/ALHENA
 keywords:
