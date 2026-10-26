@@ -29,9 +29,12 @@ authors:
   - family-names: Christodoulidis
     given-names: Stergios
 preferred-citation:
-  type: unpublished
+  type: article
   title: "ALHENA, an H&E encoder distilled from transcriptomic foundation models for multi-scale slide analysis"
-  notes: Manuscript under review.
+  journal: bioRxiv
+  year: 2026
+  doi: 10.64898/2026.10.20.760439
+  url: https://doi.org/10.64898/2026.10.20.760439
   authors:
     - family-names: Giraud-Sauveur
       given-names: Félicie

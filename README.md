@@ -8,6 +8,7 @@
 
 <p align="center">
   <a href="https://prism-oncology.github.io/ALHENA/"><b>Documentation</b></a> |
+  <a href="https://doi.org/10.64898/2026.10.20.760439"><b>Preprint</b></a> |
   <a href="https://github.com/prism-oncology/ALHENA-paper"><b>Paper code</b></a> |
   <a href="https://huggingface.co/prism-oncology/ALHENA"><b>Weights on Hugging Face</b></a> |
   <a href="https://huggingface.co/prism-oncology/ALHENA-references"><b>References on Hugging Face</b></a>
@@ -145,6 +146,20 @@ are provided for academic research only, in accordance with the DISCO terms of u
 
 ## Citation
 
-If you use ALHENA, please cite it as described on the
-[Cite page](https://prism-oncology.github.io/ALHENA/cite/) of the documentation. Please also cite
-the models and datasets ALHENA builds on, listed on the same page.
+If you use ALHENA, please cite the [preprint](https://doi.org/10.64898/2026.10.20.760439):
+
+```bibtex
+@article{alhena,
+  title   = {{ALHENA}, an {H\&E} encoder distilled from transcriptomic foundation models
+             for multi-scale slide analysis},
+  author  = {Giraud-Sauveur, F{\'e}licie and Blampey, Quentin and Marza, Pierre and
+             Benkirane, Hakim and Vakalopoulou, Maria and Courn{\`e}de, Paul-Henry and
+             Christodoulidis, Stergios},
+  journal = {bioRxiv},
+  year    = {2026},
+  doi     = {10.64898/2026.10.20.760439}
+}
+```
+
+Please also cite the models and datasets ALHENA builds on. The
+[Cite page](https://prism-oncology.github.io/ALHENA/cite/) of the documentation lists them.

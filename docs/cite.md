@@ -2,9 +2,24 @@
 
 ## ALHENA
 
-If you use ALHENA, please cite it using the metadata provided in
-[`CITATION.cff`](https://github.com/prism-oncology/ALHENA/blob/main/CITATION.cff). On GitHub, the
-same citation metadata is available through **Cite this repository**.
+If you use ALHENA, please cite the [preprint](https://doi.org/10.64898/2026.10.20.760439):
+
+```bibtex
+@article{alhena,
+  title   = {{ALHENA}, an {H\&E} encoder distilled from transcriptomic foundation models
+             for multi-scale slide analysis},
+  author  = {Giraud-Sauveur, F{\'e}licie and Blampey, Quentin and Marza, Pierre and
+             Benkirane, Hakim and Vakalopoulou, Maria and Courn{\`e}de, Paul-Henry and
+             Christodoulidis, Stergios},
+  journal = {bioRxiv},
+  year    = {2026},
+  doi     = {10.64898/2026.10.20.760439}
+}
+```
+
+The same citation metadata is provided in
+[`CITATION.cff`](https://github.com/prism-oncology/ALHENA/blob/main/CITATION.cff). On GitHub, it is
+available through **Cite this repository**.
 
 ## Models and datasets used by ALHENA
 
